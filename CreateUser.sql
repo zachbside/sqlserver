@@ -11,4 +11,5 @@ USE --enter database name here
 GO
 CREATE USER [tester] FOR LOGIN [tester] WITH DEFAULT_SCHEMA=[tester]
 GRANT EXECUTE ON [dbo].[Gathermetrics] TO [tester]
+GRANT SELECT ON [dbo].[Metrics_Repo] TO [tester]
 GO
