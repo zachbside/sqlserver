@@ -28,7 +28,7 @@ AS
                           FROM   sys.dm_os_process_memory) 
 	  --Get the average of the memory usage from the table
       SET @AVG = (SELECT Avg(value) 
-                  FROM   abb00001_dba.dbo.metrics_repo 
+                  FROM   #DatabaseName.dbo.metrics_repo 
                   WHERE  metric = 'Memory') 
 
       --if memory used is 10% higher than average, set violation bit 
@@ -36,7 +36,7 @@ AS
         SET @ViolationBit=1 
 
       --insert the date, metric name(Memory), metric value(Memory in MB), and the violation bit 
-      INSERT INTO abb00001_dba.dbo.metrics_repo 
+      INSERT INTO #DatabaseName.dbo.metrics_repo 
       VALUES      ( Getdate(), 
                     'Memory', 
                     @CurrentMemory, 
@@ -46,7 +46,7 @@ AS
       SET @NumOfLocks = (SELECT Count(*) 
                          FROM   sys.dm_tran_locks) 
       SET @AVG = (SELECT Avg(value) 
-                  FROM   abb00001_dba.dbo.metrics_repo 
+                  FROM   #DatabaseName.dbo.metrics_repo 
                   WHERE  metric = 'Locks') 
       --reset violation bit 
       SET @ViolationBit = 0 
@@ -56,7 +56,7 @@ AS
         SET @ViolationBit=1 
 
       --insert the date, metric name(Locks), metric value(Number of Locks), and the violation bit 
-      INSERT INTO abb00001_dba.dbo.metrics_repo 
+      INSERT INTO #DatabaseName.dbo.metrics_repo 
       VALUES      ( Getdate(), 
                     'Locks', 
                     @NumOfLocks, 
@@ -67,7 +67,7 @@ AS
                             FROM   sys.dm_os_performance_counters 
                             WHERE  counter_name LIKE 'Batch Requests/sec%') 
       SET @AVG = (SELECT Avg(value) 
-                  FROM   abb00001_dba.dbo.metrics_repo 
+                  FROM   #DatabaseName.dbo.metrics_repo 
                   WHERE  metric = 'BatchesPerSec') 
       --reset violation bit 
       SET @ViolationBit = 0 
@@ -77,7 +77,7 @@ AS
         SET @ViolationBit=1 
 
       --insert the date, metric name(batches per second), metric value(batches per second), and the violation bit
-      INSERT INTO abb00001_dba.dbo.metrics_repo 
+      INSERT INTO #DatabaseName.dbo.metrics_repo 
       VALUES      ( Getdate(), 
                     'BatchesPerSec', 
                     @BatchesPerSec, 
