@@ -2,7 +2,7 @@ function messageSlack ($channel,$metric,$value) {
     $percentOrValue = '%'
     if ($metric -eq 'BatchesPerSec')
         {$percentOrValue = ''}
-    $token='xoxp-696370085587-707759452896-696360003394-711664db20fcecb23a0427b776e50a6d'
+    $token='x'
     Send-SlackMessage -Token $token -Channel "$channel" -Text "The $metric is over the threshold. It is currently at $value$percentOrValue. Please resolve."
 }
 
